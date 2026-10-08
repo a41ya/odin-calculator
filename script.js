@@ -26,4 +26,3 @@ function operate (first, second, operation){
   }
 }
 
-console.log(operate(5, 7, "+"))

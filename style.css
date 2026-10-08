@@ -1,3 +1,63 @@
 body{
   background-color: black;
+  color: white;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+  font-family: sans-serif;
+}
+
+#UI{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+
+  /* margin-top: 40px; */
+
+}
+
+#result{
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+#prevInput{
+  color: gray; 
+}
+
+#input{
+  font-size: 60px;
+}
+#buttons{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  min-width: 340px;
+  max-width: 380px;
+}
+
+.button{
+  font-size: 44px;
+  min-width: 80px;
+  aspect-ratio: 1/1;
+  flex: 1 1 0;
+
+  border-radius: 80px;
+  border: none;
+
+  background-color: hsla(0, 0%, 100%, 0.191);
+  color: white;
+}
+
+.button:hover{
+ background-color: hsla(0, 0%, 100%, 0.322);
+}
+.button:active{
+ background-color: hsla(0, 0%, 100%, 0.381);
 }
