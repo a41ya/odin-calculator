@@ -1,5 +1,5 @@
 body{
-  background-color: black;
+  background-color: rgb(24, 24, 24);
   color: white;
   font-size: 40px;
   display: flex;
@@ -43,7 +43,7 @@ body{
 }
 
 .button{
-  font-size: 44px;
+  font-size: 38px;
   min-width: 80px;
   aspect-ratio: 1/1;
   flex: 1 1 0;
@@ -60,4 +60,17 @@ body{
 }
 .button:active{
  background-color: hsla(0, 0%, 100%, 0.381);
+}
+
+.button.side{
+  background-color: rgb(228, 130, 146); 
+  font-size: 42px;
+}
+
+.button.side:hover{
+  background-color: rgb(228, 142, 157); 
+}
+
+.button.side:active{
+  background-color: rgb(238, 160, 173); 
 }
