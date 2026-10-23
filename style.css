@@ -27,7 +27,8 @@ body{
   align-items: flex-end;
 }
 #prevInput{
-  color: gray; 
+  /* color: gray;  */
+  color: rgb(24, 24, 24);
 }
 
 #input{
@@ -62,13 +63,23 @@ body{
  background-color: hsla(0, 0%, 100%, 0.381);
 }
 
+.button.top{
+  background-color: hsla(0, 0%, 100%, 0.370);
+}
+.button.top:hover{
+  background-color: hsla(0, 0%, 100%, 0.400);
+}
+.button.top:active{
+  background-color: hsla(0, 0%, 100%, 0.430);
+}
+
 .button.side{
-  background-color: rgb(228, 130, 146); 
+  background-color: rgb(230, 124, 141); 
   font-size: 42px;
 }
 
 .button.side:hover{
-  background-color: rgb(228, 142, 157); 
+  background-color: rgb(223, 133, 148); 
 }
 
 .button.side:active{
