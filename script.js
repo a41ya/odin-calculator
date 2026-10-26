@@ -69,19 +69,23 @@ function appendFirst(event){
   if (input.textContent == 0){
     firstNumber = event.target.textContent;
     input.textContent = firstNumber;
-  } else {
+  } else if (firstNumber.length < 12) {
     firstNumber += event.target.textContent;
     input.textContent = firstNumber;
+  } else if (firstNumber.length >= 12){
+    return;
   }
 }
 
 function appendSecond(event){
   if (input.textContent == 0){
-    firstNumber = event.target.textContent;
-    input.textContent = firstNumber;
-  } else {
-    firstNumber += event.target.textContent;
-    input.textContent = firstNumber;
+    secondNumber = event.target.textContent;
+    input.textContent = secondNumber;
+  } else if (secondNumber.length < 12) {
+    secondNumber += event.target.textContent;
+    input.textContent = secondNumber;
+  } else if (secondNumber.length >= 12){
+    return;
   }
 }
 
@@ -98,7 +102,10 @@ function deleteOneChar(){
   
 }
 function clearDisplay(){
-  input.textContent = "0";
+  firstNumber = 0;
+  secondNumber = 0;
+  currentOperation = null;
+  input.textContent = firstNumber;
 }
 
 function showPrevInput(){
