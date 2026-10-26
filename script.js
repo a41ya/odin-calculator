@@ -28,6 +28,12 @@ const input = document.querySelector("#input")
 const prevInput = document.querySelector("#prevInput")
 
 //
+let firstNumber = 0;
+let secondNumber = 0;
+let currentOperation = null;
+let isSecondNumber = false;
+
+//
 //functions
 //
 const add = function(a, b) {
@@ -59,19 +65,36 @@ function operate (first, second, operation){
 }
 
 //
-function appendFirst(){
-
+function appendFirst(event){
+  if (input.textContent == 0){
+    firstNumber = event.target.textContent;
+    input.textContent = firstNumber;
+  } else {
+    firstNumber += event.target.textContent;
+    input.textContent = firstNumber;
+  }
 }
 
-function appendSecond(){
-  
+function appendSecond(event){
+  if (input.textContent == 0){
+    firstNumber = event.target.textContent;
+    input.textContent = firstNumber;
+  } else {
+    firstNumber += event.target.textContent;
+    input.textContent = firstNumber;
+  }
 }
+
 function deleteOneChar(){
   if (input.textContent.length === 1){
     return input.textContent = "0";
-  } else {
-    input.textContent = input.textContent.slice(0, -1);
-  }
+  } else if (!isSecondNumber){
+    firstNumber = firstNumber.slice(0, -1);
+    input.textContent = firstNumber;
+  } else if (secondNumber){
+    secondNumber = secondNumber.slice(0, -1);
+    input.textContent = secondNumber;
+  } 
   
 }
 function clearDisplay(){
@@ -82,6 +105,27 @@ function showPrevInput(){
   prevInput.style.color = "gray";
 }
 
+function appendNumber (target){
+  if (!isSecondNumber){
+    appendFirst(target);
+  } else {
+    appendSecond(target);
+  }
+}
+
+//
 //listeners
+//
 clear.addEventListener("click", clearDisplay)
 deleteBtn.addEventListener("click", deleteOneChar)
+
+btn0.addEventListener('click', appendNumber)
+btn1.addEventListener('click', appendNumber)
+btn2.addEventListener('click', appendNumber)
+btn3.addEventListener('click', appendNumber)
+btn4.addEventListener('click', appendNumber)
+btn5.addEventListener('click', appendNumber)
+btn6.addEventListener('click', appendNumber)
+btn7.addEventListener('click', appendNumber)
+btn8.addEventListener('click', appendNumber)
+btn9.addEventListener('click', appendNumber)
