@@ -29,15 +29,15 @@ const prevInput = document.querySelector("#prevInput")
 
 //
 let firstNumber = 0;
-let secondNumber = 0;
-let currentOperation = null;
+let secondNumber = "";
+let currentOperation = "";
 let isSecondNumber = false;
-
+let prev = ""
 //
 //functions
 //
 const add = function(a, b) {
-	return a + b;
+	return +a + +b;
 };
 
 const subtract = function(a, b) {
@@ -57,9 +57,9 @@ function operate (first, second, operation){
     return add(first, second);
   } else if (operation === "-"){
     return subtract(first, second);
-  } else if (operation === "*"){
+  } else if (operation === "x"){
     return multiply(first, second);
-  } else if (operation === "/"){
+  } else if (operation === "÷"){
     return divide(first, second);
   }
 }
@@ -78,12 +78,12 @@ function appendFirst(event){
 }
 
 function appendSecond(event){
-  if (input.textContent == 0){
+  if (secondNumber == ""){
     secondNumber = event.target.textContent;
-    input.textContent = secondNumber;
-  } else if (secondNumber.length < 12) {
+    input.textContent = `${firstNumber} ${currentOperation} ${secondNumber}`;
+  } else if (secondNumber.length < 12){
     secondNumber += event.target.textContent;
-    input.textContent = secondNumber;
+    input.textContent = `${firstNumber} ${currentOperation} ${secondNumber}`;
   } else if (secondNumber.length >= 12){
     return;
   }
@@ -97,15 +97,16 @@ function deleteOneChar(){
     input.textContent = firstNumber;
   } else if (secondNumber){
     secondNumber = secondNumber.slice(0, -1);
-    input.textContent = secondNumber;
+    input.textContent = `${firstNumber} ${currentOperation} ${secondNumber}`;
   } 
   
 }
 function clearDisplay(){
   firstNumber = 0;
-  secondNumber = 0;
-  currentOperation = null;
+  secondNumber = "";
+  currentOperation = "";
   input.textContent = firstNumber;
+  isSecondNumber = false;
 }
 
 function showPrevInput(){
@@ -120,6 +121,23 @@ function appendNumber (target){
   }
 }
 
+function setOperation (event){
+  if (currentOperation !== ""){
+    return
+  }
+
+  currentOperation = event.target.textContent;
+  input.textContent = `${firstNumber}  ${currentOperation}`;
+  isSecondNumber = true;
+}
+
+function calculateResult(){
+  isSecondNumber = false
+  firstNumber = operate (firstNumber, secondNumber, currentOperation);
+  currentOperation = ""
+  secondNumber = ""
+  input.textContent = firstNumber
+}
 //
 //listeners
 //
@@ -136,3 +154,10 @@ btn6.addEventListener('click', appendNumber)
 btn7.addEventListener('click', appendNumber)
 btn8.addEventListener('click', appendNumber)
 btn9.addEventListener('click', appendNumber)
+
+divideBtn.addEventListener('click', setOperation)
+multiplyBtn.addEventListener('click', setOperation)
+subtractBtn.addEventListener('click', setOperation)
+addBtn.addEventListener('click', setOperation)
+
+equalBtn.addEventListener('click', calculateResult)
