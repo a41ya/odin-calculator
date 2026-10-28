@@ -1,5 +1,5 @@
 body{
-  background-color: rgb(24, 24, 24);
+  background-color: #181818;
   color: white;
   font-size: 40px;
   display: flex;
@@ -15,9 +15,6 @@ body{
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-
-  /* margin-top: 40px; */
-
 }
 
 #result{

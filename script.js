@@ -34,9 +34,10 @@ let currentOperation = null;
 let isSecondNumber = false;
 
 let currentInput = input.textContent;
-let prev = ""
+let prev = null;
 
-let result;
+let result = null;
+
 //
 //functions
 //
@@ -61,14 +62,17 @@ const divide = function(a, b) {
 };
 
 function operate (first, second, operation){
-  if (operation === "+"){
-    return add(first, second);
-  } else if (operation === "-"){
-    return subtract(first, second);
-  } else if (operation === "x"){
-    return multiply(first, second);
-  } else if (operation === "÷"){
-    return divide(first, second);
+  switch (operation) {
+    case "+":
+      return add(first, second);
+    case "-":
+      return subtract(first, second);
+    case "x":
+      return multiply(first, second);
+    case "÷":
+      return divide(first, second);
+    default: 
+      return null;
   }
 }
 
@@ -118,7 +122,8 @@ function clearDisplay(){
   firstNumber = null;
   secondNumber = null;
   currentOperation = null;
-  input.textContent = firstNumber;
+  currentInput = "0";
+  input.textContent = currentInput;
   isSecondNumber = false;
   prevInput.style.color = "#181818"
 }
