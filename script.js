@@ -28,11 +28,15 @@ const input = document.querySelector("#input")
 const prevInput = document.querySelector("#prevInput")
 
 //
-let firstNumber = 0;
-let secondNumber = "";
-let currentOperation = "";
+let firstNumber = null;
+let secondNumber = null;
+let currentOperation = null;
 let isSecondNumber = false;
+
+let currentInput = input.textContent;
 let prev = ""
+
+let result;
 //
 //functions
 //
@@ -49,7 +53,11 @@ const multiply = function(a, b) {
 };
 
 const divide = function(a, b) {
-	return a / b;
+  if (b == 0){
+    return "ты как на ноль делить собрался?";
+  } else {
+    return a / b;
+  }
 };
 
 function operate (first, second, operation){
@@ -66,7 +74,7 @@ function operate (first, second, operation){
 
 //
 function appendFirst(event){
-  if (input.textContent == 0){
+  if (input.textContent == 0 || input.textContent == result){
     firstNumber = event.target.textContent;
     input.textContent = firstNumber;
   } else if (firstNumber.length < 12) {
@@ -78,7 +86,7 @@ function appendFirst(event){
 }
 
 function appendSecond(event){
-  if (secondNumber == ""){
+  if (secondNumber == null){
     secondNumber = event.target.textContent;
     input.textContent = `${firstNumber} ${currentOperation} ${secondNumber}`;
   } else if (secondNumber.length < 12){
@@ -90,6 +98,11 @@ function appendSecond(event){
 }
 
 function deleteOneChar(){
+  if (input.textContent == result){
+    clearDisplay();
+  }
+
+
   if (input.textContent.length === 1){
     return input.textContent = "0";
   } else if (!isSecondNumber){
@@ -102,11 +115,12 @@ function deleteOneChar(){
   
 }
 function clearDisplay(){
-  firstNumber = 0;
-  secondNumber = "";
-  currentOperation = "";
+  firstNumber = null;
+  secondNumber = null;
+  currentOperation = null;
   input.textContent = firstNumber;
   isSecondNumber = false;
+  prevInput.style.color = "#181818"
 }
 
 function showPrevInput(){
@@ -116,14 +130,16 @@ function showPrevInput(){
 function appendNumber (target){
   if (!isSecondNumber){
     appendFirst(target);
+    prevInput.style.color = "#181818"
   } else {
     appendSecond(target);
   }
 }
 
 function setOperation (event){
-  if (currentOperation !== ""){
-    return
+
+  if (firstNumber == null){
+    firstNumber = result
   }
 
   currentOperation = event.target.textContent;
@@ -132,11 +148,23 @@ function setOperation (event){
 }
 
 function calculateResult(){
+  
+  if (!secondNumber){
+    return;
+  }
+  prevInput.style.color = "gray";
+  prev = `${firstNumber} ${currentOperation} ${secondNumber}`;
+  prevInput.textContent = prev;
+
   isSecondNumber = false
-  firstNumber = operate (firstNumber, secondNumber, currentOperation);
-  currentOperation = ""
-  secondNumber = ""
-  input.textContent = firstNumber
+  result = `${operate (firstNumber, secondNumber, currentOperation)}`;
+
+  firstNumber = null
+  currentOperation = null
+  secondNumber = null
+  input.textContent = result;
+
+  
 }
 //
 //listeners
@@ -154,6 +182,8 @@ btn6.addEventListener('click', appendNumber)
 btn7.addEventListener('click', appendNumber)
 btn8.addEventListener('click', appendNumber)
 btn9.addEventListener('click', appendNumber)
+
+coma.addEventListener('click', appendNumber)
 
 divideBtn.addEventListener('click', setOperation)
 multiplyBtn.addEventListener('click', setOperation)
