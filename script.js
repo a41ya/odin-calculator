@@ -23,24 +23,29 @@ const btn0 = document.querySelector("#btn0")
 const changeSign = document.querySelector("#changeSign")
 const coma = document.querySelector("#coma")
 
+
 //display
 const input = document.querySelector("#input")
 const prevInput = document.querySelector("#prevInput")
 
-//
+
+//accumulators 
 let firstNumber = null;
 let secondNumber = null;
 let currentOperation = null;
 let isSecondNumber = false;
 
-let currentInput = input.textContent;
+let currentInput = null;
 let prev = null;
 
 let result = null;
 
+
 //
 //functions
 //
+
+//math operations
 const add = function(a, b) {
 	return +a + +b;
 };
@@ -61,6 +66,7 @@ const divide = function(a, b) {
   }
 };
 
+//operate function
 function operate (first, second, operation){
   switch (operation) {
     case "+":
@@ -76,17 +82,21 @@ function operate (first, second, operation){
   }
 }
 
-//
+//append numbers functions
 function appendFirst(event){
-  if (input.textContent == 0 || input.textContent == result){
-    firstNumber = event.target.textContent;
-    input.textContent = firstNumber;
-  } else if (firstNumber.length < 12) {
-    firstNumber += event.target.textContent;
-    input.textContent = firstNumber;
-  } else if (firstNumber.length >= 12){
-    return;
+  if (currentInput == null){
+    currentInput = "0";
   }
+  
+  if (currentInput === "0" && event.target.textContent === ".") {
+    currentInput += event.target.textContent;
+  } else if (currentInput === "0") {
+    currentInput = event.target.textContent;
+  } else {
+    currentInput += event.target.textContent;
+  }
+
+  input.textContent = currentInput;
 }
 
 function appendSecond(event){
@@ -101,6 +111,7 @@ function appendSecond(event){
   }
 }
 
+//delete one symbol function
 function deleteOneChar(){
   if (input.textContent == result){
     clearDisplay();
@@ -118,6 +129,8 @@ function deleteOneChar(){
   } 
   
 }
+
+// clear all function
 function clearDisplay(){
   firstNumber = null;
   secondNumber = null;
@@ -128,10 +141,12 @@ function clearDisplay(){
   prevInput.style.color = "#181818"
 }
 
+//show input function
 function showPrevInput(){
   prevInput.style.color = "gray";
 }
 
+//for listeners
 function appendNumber (target){
   if (!isSecondNumber){
     appendFirst(target);
@@ -142,13 +157,23 @@ function appendNumber (target){
 }
 
 function setOperation (event){
-
+  if (currentOperation == null){
+    firstNumber = currentInput;
+    currentOperation = event.target.textContent;
+  }
+  
+  if(secondNumber == null){
+    currentOperation = event.target.textContent;
+  } else {
+    return;
+  }
+  
   if (firstNumber == null){
     firstNumber = result
   }
 
-  currentOperation = event.target.textContent;
   input.textContent = `${firstNumber}  ${currentOperation}`;
+  
   isSecondNumber = true;
 }
 
@@ -164,19 +189,23 @@ function calculateResult(){
   isSecondNumber = false
   result = `${operate (firstNumber, secondNumber, currentOperation)}`;
 
-  firstNumber = null
+  firstNumber = null;
   currentOperation = null
   secondNumber = null
+
   input.textContent = result;
 
-  
+  currentInput = null;
 }
 //
 //listeners
 //
+
+//
 clear.addEventListener("click", clearDisplay)
 deleteBtn.addEventListener("click", deleteOneChar)
 
+//
 btn0.addEventListener('click', appendNumber)
 btn1.addEventListener('click', appendNumber)
 btn2.addEventListener('click', appendNumber)
@@ -190,6 +219,7 @@ btn9.addEventListener('click', appendNumber)
 
 coma.addEventListener('click', appendNumber)
 
+//
 divideBtn.addEventListener('click', setOperation)
 multiplyBtn.addEventListener('click', setOperation)
 subtractBtn.addEventListener('click', setOperation)
