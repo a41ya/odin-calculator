@@ -60,7 +60,8 @@ const multiply = function(a, b) {
 
 const divide = function(a, b) {
   if (b == 0){
-    return "ты как на ноль делить собрался?";
+    alert("error");
+    result = null;
   } else {
     return a / b;
   }
@@ -101,14 +102,20 @@ function appendFirst(event){
 
 function appendSecond(event){
   if (secondNumber == null){
-    secondNumber = event.target.textContent;
-    input.textContent = `${firstNumber} ${currentOperation} ${secondNumber}`;
-  } else if (secondNumber.length < 12){
-    secondNumber += event.target.textContent;
-    input.textContent = `${firstNumber} ${currentOperation} ${secondNumber}`;
-  } else if (secondNumber.length >= 12){
-    return;
+    currentInput = "0";
   }
+
+  if (currentInput === "0" && event.target.textContent === ".") {
+    currentInput += event.target.textContent;
+  } else if (currentInput === "0") {
+    currentInput = event.target.textContent;
+  } else {
+    currentInput += event.target.textContent;
+  }
+
+  input.textContent = `${firstNumber} ${currentOperation} ${currentInput}`
+
+  secondNumber = +currentInput;
 }
 
 //delete one symbol function
@@ -117,16 +124,27 @@ function deleteOneChar(){
     clearDisplay();
   }
 
-
   if (input.textContent.length === 1){
-    return input.textContent = "0";
-  } else if (!isSecondNumber){
-    firstNumber = firstNumber.slice(0, -1);
-    input.textContent = firstNumber;
-  } else if (secondNumber){
-    secondNumber = secondNumber.slice(0, -1);
-    input.textContent = `${firstNumber} ${currentOperation} ${secondNumber}`;
-  } 
+    currentInput = "0";
+    input.textContent = currentInput;
+  } else if (!isSecondNumber && currentOperation === null){
+    currentInput = currentInput.slice(0, -1);
+    firstNumber = currentInput;
+    input.textContent = currentInput;
+  } else if (secondNumber === null && currentOperation !== null){
+    currentOperation = null;
+    currentInput = String(firstNumber);
+    input.textContent = currentInput;
+    isSecondNumber = false;
+  } else if (secondNumber !== null){
+    currentInput = currentInput.slice(0, -1);
+    secondNumber = currentInput;
+    input.textContent = `${firstNumber} ${currentOperation} ${secondNumber}`
+
+    if (currentInput == ""){
+      secondNumber = null
+    }
+  }
   
 }
 
@@ -147,18 +165,21 @@ function showPrevInput(){
 }
 
 //for listeners
-function appendNumber (target){
+function appendNumber (event){
   if (!isSecondNumber){
-    appendFirst(target);
+    appendFirst(event);
     prevInput.style.color = "#181818"
   } else {
-    appendSecond(target);
+    appendSecond(event);
   }
 }
 
 function setOperation (event){
   if (currentOperation == null){
-    firstNumber = currentInput;
+    firstNumber = +currentInput;
+    if (currentInput == null){
+      firstNumber = result;
+    }
     currentOperation = event.target.textContent;
   }
   
@@ -167,10 +188,6 @@ function setOperation (event){
   } else {
     return;
   }
-  
-  if (firstNumber == null){
-    firstNumber = result
-  }
 
   input.textContent = `${firstNumber}  ${currentOperation}`;
   
@@ -178,8 +195,7 @@ function setOperation (event){
 }
 
 function calculateResult(){
-  
-  if (!secondNumber){
+  if (secondNumber == null){
     return;
   }
   prevInput.style.color = "gray";
@@ -194,7 +210,7 @@ function calculateResult(){
   secondNumber = null
 
   input.textContent = result;
-
+  
   currentInput = null;
 }
 //
